@@ -1,0 +1,257 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Manutenção de Modelos</title>        
+    </h:head>
+
+
+    <h:form  id="formTabela">
+        <p:growl id="msg" life="2000"/>
+        <p:dataTable id="tabela"
+                     var="aux" 
+                     value="#{maquinaControle.maquinas}">
+
+
+
+            <p:column headerText="Descrição">
+                <h:outputText 
+                    value="#{aux.descricao}" />
+            </p:column>
+            
+            <p:column headerText="Categoria">
+                <h:outputText 
+                    value="#{aux.categoria.nomeCategoria}" />
+            </p:column>
+
+            <p:column headerText="Horas Trabalhadas">
+                <h:outputText 
+                    value="#{aux.horastrabalhadas}" />
+            </p:column>
+            
+            <p:column headerText="Kilometragem">
+                <h:outputText 
+                    value="#{aux.kilometragem}" />
+            </p:column>
+            
+            <p:column headerText="Motor">
+                <h:outputText 
+                    value="#{aux.motorcv}" />
+            </p:column>
+            
+            <p:column headerText="Cidade">
+                <h:outputText 
+                    value="#{aux.cidade}" />
+            </p:column>
+            
+            <p:column headerText="Estado">
+                <h:outputText 
+                    value="#{aux.estado}" />
+            </p:column>
+            
+            <p:column headerText="Valor">
+                <h:outputText 
+                    value="#{aux.valor}" />
+            </p:column>
+            
+            <p:column headerText="Ano">
+                <h:outputText 
+                    value="#{aux.ano}" />
+            </p:column>
+                        
+            <p:column headerText="Marca">
+                <h:outputText 
+                    value="#{aux.marca.nome}" />
+            </p:column>
+
+            <p:column headerText="Opções" style="width: 100px">
+                <p:commandButton icon="ui-icon-pencil" 
+                                 oncomplete="PF('dialog').show()"
+                                 update=":formCadastro :formTabela"
+                                 action="#{maquinaControle.preparaAlterar()}">
+                    <p:resetInput target=":formCadastro:painel" />
+                    <f:setPropertyActionListener value="#{aux}" target="#{maquinaControle.maquina}" />
+                </p:commandButton>
+
+                <p:commandButton icon="ui-icon-cancel" 
+                                 oncomplete="PF('excluir').show()">
+                    <f:setPropertyActionListener value="#{aux}" target="#{maquinaControle.maquina}" />
+                </p:commandButton>
+
+            </p:column>
+
+        </p:dataTable>
+
+        <p:commandButton value="Novo" 
+                         action="#{maquinaControle.preparaIncluir()}" 
+                         oncomplete="PF('dialog').show()" 
+                         update=":formCadastro">
+            <p:resetInput target=":formCadastro:painel" />
+        </p:commandButton>
+
+
+
+    </h:form>
+
+
+    <!--PAINEL PARA EXCLUIR-->
+    <p:confirmDialog id="confirmaExclusao" 
+                     message="Deseja realmente excluir o registro?"  
+                     header="Confirma a Exclusão?" 
+                     severity="alert" 
+                     widgetVar="excluir">
+        <h:form id="formPainelExcluir">
+            <p:commandButton value="Sim" 
+                             oncomplete="PF('excluir').hide()" 
+                             update=":formTabela :formCadastro"  
+                             actionListener="#{maquinaControle.excluir()}"/>  
+            <p:commandButton value="Não" oncomplete="PF('excluir').hide()"/> 
+        </h:form>
+    </p:confirmDialog>  
+
+
+
+    <!--PAINEL PARA CADASTRO-->
+    <p:dialog
+        header="Cadastro de Marcas"
+        widgetVar="dialog"
+        resizable="false"
+        modal="true"
+        >
+
+        <h:form id="formCadastro">
+
+            <h:panelGrid columns="2" id="painel">
+
+                <p:outputLabel value="Descrição:"
+                               for="desc"
+                               />
+                <p:inputText id="desc"
+                             required="true"
+                             maxlength="30"
+                             value="#{maquinaControle.maquina.descricao}"/>
+
+
+                <p:outputLabel value="Categoria "
+                               for="categoria"
+                               />
+                <p:selectOneMenu id="categoria" 
+                                             required="true" 
+                                             value="#{maquinaControle.idCategoria}" >
+                                <f:selectItem itemLabel="Selecione"/>
+                                <f:selectItems value="#{categoriaControle.categorias}" 
+                                               var="n" itemLabel="#{n.nomeCategoria}"  
+                                               itemValue="#{n.idCategoria}"/>
+                            </p:selectOneMenu>
+
+
+                <p:outputLabel value="Horas Trabalhadas:"
+                               for="horast"
+                               />
+                <p:inputText id="horast"
+                             required="true"
+                             maxlength="30"
+                             value="#{maquinaControle.maquina.horastrabalhadas}"/>
+
+
+
+                <p:outputLabel value="Kilometragem rodada: "
+                               for="kilometragem"
+                               />
+                <p:inputText id="kilometragem"
+                             required="true"
+                             maxlength="30"
+                             value="#{maquinaControle.maquina.kilometragem}"/>
+
+               
+
+                <p:outputLabel value="Motor: "
+                               for="motor"
+                               />
+                <p:inputText id="motor"
+                             required="true"
+                             maxlength="30"
+                             value="#{maquinaControle.maquina.motorcv}"/>
+
+                <p:outputLabel value="Cidade: "
+                               for="cidade"
+                               />
+                <p:inputText id="cidade"
+                             required="true"
+                             maxlength="30"
+                             value="#{maquinaControle.maquina.cidade}"/>
+                
+                <p:outputLabel value="Estado: "
+                               for="estado"
+                               />
+                <p:inputText id="estado"
+                             required="true"
+                             maxlength="30"
+                             value="#{maquinaControle.maquina.estado}"/>
+                
+                <p:outputLabel value="Valor: "
+                               for="valor"
+                               />
+                <p:inputText id="valor"
+                             required="true"
+                             maxlength="11"
+                             value="#{maquinaControle.maquina.valor}"/>
+                
+                <p:outputLabel value="Ano: "
+                               for="ano"
+                               />
+                <p:inputText id="ano"
+                             required="true"
+                             maxlength="4"
+                             value="#{maquinaControle.maquina.ano}"/>
+
+               
+
+                <p:outputLabel value="Marca: "
+                               for="marca"
+                               />
+                
+                
+                <p:selectOneMenu id="marca" 
+                                 required="true" 
+                                 value="#{maquinaControle.idMarca}" >
+                    <f:selectItem itemLabel="Selecione"/>
+                    <f:selectItems value="#{marcaControle.marcas}" 
+                                   var="m" itemLabel="#{m.nome}"  
+                                   itemValue="#{m.idMarca}"/>
+                </p:selectOneMenu>
+    
+            </h:panelGrid>
+            <p:commandButton value="Salvar" 
+                             action="#{maquinaControle.salvar}" 
+                             update=":formTabela :formCadastro"
+                             oncomplete="validar(xhr,status,args,'dialog');" 
+                             icon="ui-icon-disk" 
+                             />
+            <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialog').hide()"/>
+
+
+
+
+        </h:form>
+
+
+    </p:dialog>
+
+    <script type="text/javascript">
+        function validar(xhr, status, args, dlg) {
+            if (args.validationFailed) {
+
+            } else {
+                PF(dlg).hide();
+            }
+        }
+
+    </script>
+
+</html>
+

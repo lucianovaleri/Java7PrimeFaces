@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Manutenção de Marcas</title>        
+    <title>GAMA </title>
+        <script src="https://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css'/>
+        <link rel="stylesheet" href="../css/cssTelaInicial.css"/>
+        <style>
+            .main2{
+                margin-top: 150px;
+            }
+
+            body {
+                background-color: white;
+            }
+        </style>
+
+    </h:head>
+    
+    <h:body  >
+
+        <div>
+            
+            
+        </div>
+            
+            <header class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container">
+
+                        <!-- Mobile toggle button -->
+                        <p:button class="btn btn-navbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </p:button>
+
+                        <!-- Logo -->
+                        <a href="../" class="navbar-brand"><img src="image/logo1.png" alt="GAMA"/></a>
+
+                        <!-- Navigation -->
+                        <nav class="nav-collapse collapse">
+                            <ul class="nav">
+
+                            <li><a href="../faces/telaInicial.xhtml" > Início </a></li>
+                                <li class="dropdown"/>
+                                    
+                            <li><a href="../faces/telaRelatorios.xhtml" >Relatórios</a></li> 
+                            <li><a href="../faces/manutencaoMarcas.xhtml" > Gerenciamento de Marcas </a> </li>
+
+                                <li><a href="../faces/manutencaoCategoria.xhtml" >Gerenciamento de Categorias</a></li> 
+                                <li><a href="../faces/manutencaoUsuario.xhtml" >Gerenciamento de Usuário</a></li>  
+                                <li><a href="../faces/telaMaquinasAguardando.xhtml" > Anúncios em espera</a></li>
+                                <li><a href="../faces/login2.xhtml"> SAIR </a></li>
+
+                            </ul><!-- /.nav -->           
+                        </nav><!--/.nav-collapse -->
+                    </div><!-- /.container -->                              
+
+
+
+                </div><!-- /.nav-inner -->            
+
+                <!--            <div class="text-center">
+                                    <p          
+                                        style="font-size: 20px; margin-bottom: 15px; margin-top: 15px"
+                                        class="lead" 
+                                        data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">
+                                        <strong>Adicione novos anúncios</strong>
+                                    </p>
+                
+                                </div>-->
+
+            </header>
+    
+
+        <div class="main2">
+
+    <h:form  id="formTabela">
+
+        <p:growl id="msg" life="2000"/>
+        <p:dataTable id="tabela"
+                     var="aux" 
+                     value="#{marcaControle.marcas}">
+
+
+
+            <p:column headerText="Nome">
+                <h:outputText 
+                    value="#{aux.nome}" />
+            </p:column>
+
+            <p:column headerText="Pais Origem">
+                <h:outputText 
+                    value="#{aux.paisOrigem}" />
+            </p:column>
+            <p:column headerText="Opções" style="width: 100px">
+                <p:commandButton icon="ui-icon-pencil" 
+                                 oncomplete="PF('dialog').show()"
+                                 update=":formCadastro :formTabela"
+                                 action="#{marcaControle.preparaAlterar()}">
+                    <p:resetInput target=":formCadastro:painel" />
+                    <f:setPropertyActionListener value="#{aux}" target="#{marcaControle.marca}" />
+                </p:commandButton>
+
+                <p:commandButton icon="ui-icon-cancel" 
+                                 oncomplete="PF('excluir').show()">
+                    <f:setPropertyActionListener value="#{aux}" target="#{marcaControle.marca}" />
+                </p:commandButton>
+
+            </p:column>
+
+        </p:dataTable>
+
+        <p:commandButton value="Novo" 
+                         action="#{marcaControle.preparaIncluir()}" 
+                         oncomplete="PF('dialog').show()" 
+                         update=":formCadastro">
+            <p:resetInput target=":formCadastro:painel" />
+        </p:commandButton>
+
+    </h:form>
+
+
+    <!--PAINEL PARA EXCLUIR-->
+    <p:confirmDialog id="confirmaExclusao" 
+                     message="Deseja realmente excluir o registro?"  
+                     header="Confirma a Exclusão?" 
+                     severity="alert" 
+                     widgetVar="excluir">
+        <h:form id="formPainelExcluir">
+            <p:commandButton value="Sim" 
+                             oncomplete="PF('excluir').hide()" 
+                             update=":formTabela :formCadastro"  
+                             actionListener="#{marcaControle.excluir()}"/>  
+            <p:commandButton value="Não" oncomplete="PF('excluir').hide()"/> 
+        </h:form>
+    </p:confirmDialog>  
+
+    <!--PAINEL PARA CADASTRO-->
+    <p:dialog
+        header="Cadastro de Marcas"
+        widgetVar="dialog"
+        resizable="false"
+        modal="true"
+        >
+
+        <h:form id="formCadastro">
+
+            <h:panelGrid columns="2" id="painel">
+
+                <p:outputLabel value="Nome:"
+                               for="nome"
+                               />
+                <p:inputText id="nome"
+                             required="true"
+                             maxlength="30"
+                             value="#{marcaControle.marca.nome}"/>
+                <p:outputLabel value="Pais de Origem:"
+                               for="pais"
+                               />
+                <p:inputText id="pais"
+                             maxlength="40"
+                             required="true"
+                             value="#{marcaControle.marca.paisOrigem}"/>
+
+            </h:panelGrid>
+            <p:commandButton value="Salvar" 
+                             action="#{marcaControle.salvar}" 
+                             update=":formTabela :formCadastro"
+                             oncomplete="validar(xhr,status,args,'dialog');" 
+                             icon="ui-icon-disk" 
+                             />
+            <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialog').hide()"/>
+
+
+
+
+        </h:form>
+
+        
+    </p:dialog>
+
+    </div>
+    
+    <script type="text/javascript">
+        function validar(xhr, status, args, dlg) {
+            if (args.validationFailed) {
+
+            } else {
+                PF(dlg).hide();
+            }
+        }
+
+    </script>
+    </h:body>
+
+</html>
+

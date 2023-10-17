@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+    <h:head>
+        <title>GAMA Inicio</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+        <link rel="stylesheet" href="../css/bootstrap.css" />
+        <link href="../css/font-awesome.min.css" rel="stylesheet"/>
+        <link href="../css/owl.carousel.css" rel="stylesheet" />
+
+        <link href="../css/owl.theme.css" rel="stylesheet" />
+        <link href="../css/prettyPhoto.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="../css/style.css"/>
+
+
+    </h:head>
+    <h:body class="blue" onload="#{maquinaControle.atualizaMaquinas()}">
+        <!--        <div class="preloader">            
+                </div>-->
+
+        <div class="backgroundcover"></div>
+
+        <header id="home" class="navbar navbar-inverse navbar-fixed-top" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a href="../" class="navbar-brand"><img src="image/logo1.png" alt="GAMA"/></a>
+                </div>
+
+                <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
+                    <ul class="nav navbar-nav menu">
+                        <li>
+                            <a href="../faces/telaInicialUsuario.xhtml"> Inicio </a>        
+                        </li>
+                        <li>
+                            <a href="#features">Anúncios</a>
+                        </li>
+                        <li>
+                            <a href="#product">Sobre</a>
+                        </li>
+                        <li>
+                            <a href="../faces/telaMinhasMaquinas.xhtml"> Minhas Maquinas </a>        
+                        </li>
+                        <li>
+                            <a href="#impFeature">Diversidade</a>
+                        </li>
+                        
+                        <li>
+                            <a href="../faces/login2.xhtml"> SAIR </a>
+                        </li>
+                    </ul>                   
+                </nav>
+            </div>
+        </header>
+
+        <section id="main"  class="section main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-7">
+                        <div class="lp-element">
+                            <h1 data-scroll-reveal="wait 0.25s, then enter top and move 40px over 1s">GAMA</h1>
+                            <div class="blackdiv"  data-scroll-reveal="wait 0.35s, then enter left and move 40px over 1s"><p class="mainp">GAMA é o mais novo gerenciador de anúncios de máquinas agrícolas, com esta nova interface para facilitar a vida do usuário e com um design que agrada aos olhos. A lista dos equipamentos ficará abaixo, onde o usuário pode analisar e ver o telefone para contato de cada anúnciante.											
+                                </p></div>
+                            <p data-scroll-reveal="wait 0.35s, then enter left and move 40px over 1s"> <a href="../faces/telaCadastroMaquinas.xhtml" target="_blank" class="btn btn-primary btn-lg" > Anuncie Aqui! </a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+                   
+    
+        <!--        AQUI ESTÁ A TABELA-->
+   
+        <section id="features" class="section features">
+                        
+            
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 sol-sm-12">
+                        <div class="text-center">
+                            <p 
+                                style="font-size: 40px; margin-bottom: 25px; margin-top: -50px; background-color: #d58512"
+                                class="lead" 
+                                data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">
+                                Anúncios de máquinas 
+                            </p>
+                        </div>
+                    </div>
+                    <h:form  id="formTabela">
+                        <p:growl id="msg" life="2000"/>
+
+                        <p:dataTable id="tabela" 
+                                     value="#{maquinaControle.filtromaquinas}"  
+                                     var="aux"  
+                                     emptyMessage="Anúncio não encontrado!" 
+                                     rows="5" 
+                                     paginator="true" 
+                                     paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5"
+                                     style="width:100%;">
+                            <f:facet name="header">  
+                                <p:outputPanel>  
+                                    <h:outputText value="Anúncios"/>  
+                                </p:outputPanel>  
+                            </f:facet> 
+
+                            <p:column filterBy="#{aux.descricao}">
+                                <f:facet name="header">
+                                    <h:outputText value="Descrição" />
+                                </f:facet>
+                                <h:outputText 
+                                    value="#{aux.descricao}" />
+                            </p:column>
+
+                            <p:column filterBy="#{aux.categoria.nomeCategoria}">
+                                <f:facet name="header">
+                                    <h:outputText value="Categoria" />                                    
+                                </f:facet>
+                                <h:outputText 
+                                    value="#{aux.categoria.nomeCategoria}" />
+                            </p:column>
+
+                            <p:column headerText="Horas Trabalhadas">
+                                <h:outputText 
+                                    value="#{aux.horastrabalhadas}" />
+                            </p:column>
+
+                            <p:column headerText="Kilometragem">
+                                <h:outputText 
+                                    value="#{aux.kilometragem}" />
+                            </p:column>
+
+                            <p:column headerText="Motor">
+                                <h:outputText 
+                                    value="#{aux.motorcv}" />
+                            </p:column>
+
+                            <p:column headerText="Cidade">
+                                <h:outputText 
+                                    value="#{aux.cidade}" />
+                            </p:column>
+
+                            <p:column headerText="Estado">
+                                <h:outputText 
+                                    value="#{aux.estado}" />
+                            </p:column>
+
+                            <p:column headerText="Valor">
+                                <h:outputText 
+                                    value="#{aux.valor}" />
+                            </p:column>
+
+                            <p:column headerText="Ano">
+                                <h:outputText 
+                                    value="#{aux.ano}" />
+                            </p:column>
+
+                            <p:column headerText="Marca">
+                                <h:outputText 
+                                    value="#{aux.marca.nome}" />
+                            </p:column>
+
+                            <p:column headerText="Contato">
+                                <h:outputText 
+                                    value="#{aux.usuario.email} - #{aux.usuario.telefone}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+
+                    <h:form>
+
+
+                        <div class="col-md-12 sol-sm-12">
+                            <div class="text-center">
+                                <p 
+                                    style="font-size: 30px; margin-bottom: 25px; margin-top: 30px; background-color: #d58512"
+                                    class="lead" 
+                                    data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s" >
+                                    <strong>Adicione novos anúncios</strong>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-12 sol-sm-12">
+                            <div class="text-center">
+                                <h:link 
+                                    value="Adicionar novo"
+                                    class="btn btn-primary"
+                                    outcome="telaCadastroMaquinas">
+                                </h:link>
+                            </div>
+                        </div>
+                    </h:form>
+
+
+
+                    <!--PAINEL PARA EXCLUIR-->
+                    <p:confirmDialog id="confirmaExclusao" 
+                                     message="Deseja realmente excluir o registro?"  
+                                     header="Confirma a Exclusão?" 
+                                     severity="alert" 
+                                     widgetVar="excluir">
+                        <h:form id="formPainelExcluir">
+                            <p:commandButton value="Sim" 
+                                             oncomplete="PF('excluir').hide()" 
+                                             update=":formTabela :formCadastro"  
+                                             actionListener="#{maquinaControle.excluir()}"/>  
+                            <p:commandButton value="Não" oncomplete="PF('excluir').hide()"/> 
+                        </h:form>
+                    </p:confirmDialog>  
+
+                    <!--PAINEL PARA CADASTRO-->
+                    <p:dialog
+                        header="Cadastro de Marcas"
+                        widgetVar="dialog"
+                        resizable="false"
+                        modal="true"
+                        >
+                        <h:form id="formCadastro">
+                            <h:panelGrid columns="2" id="painel">
+
+                                <p:outputLabel value="Descrição:"
+                                               for="desc"
+                                               />
+                                <p:inputText id="desc"
+                                             required="true"
+                                             maxlength="30"
+                                             value="#{maquinaControle.maquina.descricao}"/>
+
+                                <p:outputLabel value="Categoria "
+                                               for="categoria"
+                                               />
+                                <p:selectOneMenu id="categoria" 
+                                                 required="true" 
+                                                 value="#{maquinaControle.idCategoria}" >
+                                    <f:selectItem itemLabel="Selecione"/>
+                                    <f:selectItems value="#{categoriaControle.categorias}" 
+                                                   var="n" itemLabel="#{n.nomeCategoria}"  
+                                                   itemValue="#{n.idCategoria}"/>
+                                </p:selectOneMenu>
+
+
+                                <p:outputLabel value="Horas Trabalhadas:"
+                                               for="horast"
+                                               />
+                                <p:inputText id="horast"
+                                             required="true"
+                                             maxlength="30"
+                                             value="#{maquinaControle.maquina.horastrabalhadas}"/>
+
+
+
+                                <p:outputLabel value="Kilometragem rodada: "
+                                               for="kilometragem"
+                                               />
+                                <p:inputText id="kilometragem"
+                                             required="true"
+                                             maxlength="30"
+                                             value="#{maquinaControle.maquina.kilometragem}"/>
+
+
+
+                                <p:outputLabel value="Motor: "
+                                               for="motor"
+                                               />
+                                <p:inputText id="motor"
+                                             required="true"
+                                             maxlength="30"
+                                             value="#{maquinaControle.maquina.motorcv}"/>
+
+                                <p:outputLabel value="Cidade: "
+                                               for="cidade"
+                                               />
+                                <p:inputText id="cidade"
+                                             required="true"
+                                             maxlength="30"
+                                             value="#{maquinaControle.maquina.cidade}"/>
+
+                                <p:outputLabel value="Estado: "
+                                               for="estado"
+                                               />
+                                <p:inputText id="estado"
+                                             required="true"
+                                             maxlength="30"
+                                             value="#{maquinaControle.maquina.estado}"/>
+
+                                <p:outputLabel value="Valor: "
+                                               for="valor"
+                                               />
+                                <p:inputText id="valor"
+                                             required="true"
+                                             maxlength="11"
+                                             value="#{maquinaControle.maquina.valor}"/>
+
+                                <p:outputLabel value="Ano: "
+                                               for="ano"
+                                               />
+                                <p:inputText id="ano"
+                                             required="true"
+                                             maxlength="4"
+                                             value="#{maquinaControle.maquina.ano}"/>
+
+
+
+                                <p:outputLabel value="Marca: "
+                                               for="marca"
+                                               />
+
+
+                                <p:selectOneMenu id="marca" 
+                                                 required="true" 
+                                                 value="#{maquinaControle.idMarca}" >
+                                    <f:selectItem itemLabel="Selecione"/>
+                                    <f:selectItems value="#{marcaControle.marcas}" 
+                                                   var="m" itemLabel="#{m.nome}"  
+                                                   itemValue="#{m.idMarca}"/>
+                                </p:selectOneMenu>
+
+
+
+                            </h:panelGrid>
+                            <p:commandButton value="Salvar" 
+                                             action="#{maquinaControle.salvar}" 
+                                             update=":formTabela :formCadastro"
+                                             oncomplete="validar(xhr,status,args,'dialog');" 
+                                             icon="ui-icon-disk" 
+                                             />
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialog').hide()"/>
+                        </h:form>
+                    </p:dialog>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="product" class="section product">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 sol-sm-12">
+                        <div class="text-center">
+                            <h1 data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s" style="background-color: #d58512"> Confiabilidade e Segurança </h1>
+                            <p class="lead" data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">O <strong>GAMA</strong> só disponibiliza anúncios aprovados pela empresa X e te indicam diretamente o contato do anunciante </p>
+                        </div>
+                    </div>
+                    <div class="gap"></div>
+                    <div class="col-md-6 col-sm-12"><img class="img-responsive" src="image/htc.jpg" alt="" data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s"/></div>
+                    <div class="col-md-6 col-sm-12">
+                        <div>
+                            <h2 data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">Você pode filtrar os anúncios a serem exibidos para facilitar sua busca</h2>
+                            <p data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">A Empresa X é responsável por todos os anúncios exibidos na tabela acima.</p>
+                            <hr />
+                            <p data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">O <strong>GAMA</strong> busca facilitar a venda e a compra de novas máquina, divulgando os equipamentos para todos os usuários da região. O sistema procura atender a todas as dificuldades encontradas pelos agricultores e industrias para a divulgação de equipamentos usados e novos!</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!--        <section id="features" class="section features">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                 Title 
+                                <div class="padd30">
+                                    <h1 data-scroll-reveal="wait 0.25s, then enter top and move 40px over 1s"><strong>GAMA</strong> is a Stylish Very Simple Landing Page</h1>
+                                    <p class="lead" data-scroll-reveal="wait 0.35s, then enter left and move 40px over 1s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumqueLorem ipsu</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="block-icon text-center">
+                                    <span><i class="fa fa-tree" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"></i></span>
+                                    <h3 data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">Fully Responsive</h3>
+                                    <p data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">With carefully thought-out design, Neue looks great on any device.</p>
+                                    <button type="button" class="btn btn-primary btn-md btn-rocket btn-rocket-default" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">Learn More</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="block-icon text-center">
+                                    <span><i class="fa fa-star" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"></i></span>
+                                    <h3 data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">Superb Design</h3>
+                                    <p data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumque</p>
+                                    <button type="button" class="btn btn-primary btn-md btn-rocket btn-rocket-default" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">Learn More</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="block-icon text-center">
+                                    <span><i class="fa fa-bar-chart" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"></i></span>
+                                    <h3 data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">Fixed Background</h3>
+                                    <p data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumque</p>
+                                    <button type="button" class="btn btn-primary btn-md btn-rocket btn-rocket-default">Learn More</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="block-icon text-center">
+                                    <span><i class="fa fa-bars" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"></i></span>
+                                    <h3 data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">Bootstrap 3.0</h3>
+                                    <p data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumque</p>
+                                    <button type="button" class="btn btn-primary btn-md btn-rocket btn-rocket-default" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">Learn More</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+        
+        
+                <section id="product" class="section product">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 sol-sm-12">
+                                <div class="text-center">
+                                    <h1 data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s"><strong>Perfect</strong> app landing page</h1>
+                                    <p class="lead" data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumque </p>
+                                </div>
+                            </div>
+                            <div class="gap"></div>
+                            <div class="col-md-6 col-sm-12"><img class="img-responsive" src="image/htc.png" alt="" data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s"/></div>
+                            <div class="col-md-6 col-sm-12">
+                                <div>
+                                    <h2 data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">Superb Animations</h2>
+                                    <p data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumque</p>
+                                    <hr />
+                                    <p data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumqueLorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumqueLorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumque.</p>
+                                    <button class="btn btn-md btn-primary" data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">Learn More</button>
+                                    <button class="btn btn-md btn-default" data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">Free Download</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>-->
+
+
+        <!--        <section id="gallery" class="section gallery">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 sol-sm-12">
+                                <div class="text-center">
+                                    <h1 data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"><strong>Very Stylish</strong>Gallery</h1>
+                                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumqueLorem ipsum dolor sit amet, consectetur adipisicing</p>
+                                </div>
+                                <div class="gap"></div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/1.png" title="This is the description" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s">
+                                        <img src="image/1.png" alt="Turtle" class="img-rounded image-responsive"/>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/2.png" title="This is the description">
+                                        <img src="image/2.png" alt="Turtle" class="img-rounded image-responsive" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"/>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/3.png" title="This is the description">
+                                        <img src="image/3.png" alt="Turtle" class="img-rounded image-responsive" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s" />
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/4.png" title="This is the description">
+                                        <img src="image/4.png" alt="Turtle" class="img-rounded image-responsive" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"/>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/5.png" title="This is the description">
+                                        <img src="image/5.png" alt="Turtle" class="img-rounded image-responsive" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"/>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/6.png" title="This is the description">
+                                        <img src="image/6.png" alt="Turtle" class="img-rounded image-responsive" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"/>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/7.png" title="This is the description">
+                                        <img src="image/7.png" alt="Turtle" class="img-rounded image-responsive" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"/>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/8.png" title="This is the description">
+                                        <img src="image/8.png" alt="Turtle" class="img-rounded image-responsive" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"/>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/9.png" title="This is the description">
+                                        <img src="image/9.png" alt="Turtle" class="img-rounded image-responsive" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"/>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/10.png" title="This is the description">
+                                        <img src="image/10.png" alt="Turtle" class="img-rounded image-responsive" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"/>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/11.png" title="This is the description">
+                                        <img src="image/11.png" alt="Turtle" class="img-rounded image-responsive"data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"/>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <a href="image/12.png" title="This is the description">
+                                        <img src="image/12.png" alt="Turtle" class="img-rounded image-responsive" data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s"/>
+                                    </a>
+                                </div>
+        
+                            </div>
+                        </div>
+                </section>-->
+
+
+        <section id="impFeature" class="impFeature section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 sol-sm-12">
+                        <div class="text-center">
+                            <h1 data-scroll-reveal="wait 0.25s, then enter left and move 40px over 1s" style="background-color: #d58512" >Diversidade de anúncios</h1>
+                            <p class="lead" data-scroll-reveal="wait 0.25s, then enter top and move 40px over 1s">Todos os usuários podem adicionar seus equipamentos, sendo assim, o sistema apresentará equipamentos de todos os preços, categorias e marcas! </p>
+                        </div>
+                    </div>
+                    <div class="gap"></div>
+                    <div class="col-md-12 col-sm-12">
+                        <img  src="image/tractor.jpg" height="380" width="570" style="margin-left: 25%"/>
+                    </div>	
+
+                </div>
+            </div>
+        </section>
+
+
+
+
+        
+
+        <section class="footer" id="footer">
+            <div class="container">
+                <div class="row" id="newsletter">
+                    <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3" >
+
+                        <h2 data-scroll-reveal="wait 0.45s, then enter left and move 80px over 1s">Contato:</h2>
+                        <p data-scroll-reveal="wait 0.45s, then enter right and move 80px over 1s">Luciano Valeri - Celular - (14)997711777; <br/> Luciano Valeri - Email - lucianovaleri@hotmail.com
+                        </p>
+
+                        <div id="newsletter_form">
+                            <form >
+                                <img  src="image/eu.jpg" height="150" width="150" style="margin-left: 10px"/>
+                            </form>
+                        </div>
+                        <div id="preview"></div>
+
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1" id="share">
+
+                        <div id="social_icons">
+                            <ul>
+                                <li><a href="#" data-scroll-reveal="wait 0.45s, then enter left and move 80px over 1s"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#" data-scroll-reveal="wait 0.45s, then enter right and move 80px over 1s"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#" data-scroll-reveal="wait 0.45s, then enter bottom and move 80px over 1s"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a href="#" data-scroll-reveal="wait 0.45s, then enter top and move 80px over 1s"><i class="fa fa-youtube"></i></a></li>
+                            </ul>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <script type="text/javascript">
+            function validar(xhr, status, args, dlg) {
+                if (args.validationFailed) {
+
+                } else {
+                    PF(dlg).hide();
+                }
+            }
+
+        </script>
+        <script src="../library/jquery-2.0.3.min.js"></script>
+        <script src="../library/jquery.easing.min.js"></script>
+        <script src="../library/owl.carousel.min.js"></script>
+        <script src="../library/scrollreveal.js"></script>
+        <script src="../library/jquery.prettyPhoto.js"></script>
+        <script src="../library/jquery.scrollto.min.js"></script>
+        <script src="../library/waypoints.min.js"></script>
+        <script src="../js/notify.js"></script>
+        <script src="../js/function.js"></script>
+
+    </h:body>
+</html>

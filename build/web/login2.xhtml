@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+    <h:head>
+        <meta charset="UTF-8"/>
+        <title>GAMA login</title>
+        <meta name="viewport" content="width=device-width"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
+        <link rel="stylesheet" href="../css/cssLogin.css"/>
+    </h:head>
+
+    <h:body>
+        <img style="margin-top: 12%; margin-left: 42%" src="image/logo1.png" alt="GAMA"/>
+
+        <div class="container">
+            <div class="login-wrapper">
+                <h:form class="login-form">
+                    <!-- username --> 
+                    <div class="username">
+                        <label><span class="entypo-user"></span></label>
+                        <p:inputText
+                            placeholder="Email"
+                            class="username"
+                            value="#{usuarioControle.usuario.email}"
+                            >
+
+                        </p:inputText>
+                        <!--                        <input type="text" placeholder="Username"/>-->
+                    </div>
+                    <!-- password -->
+                    <div class="password">
+                        <label><span class="entypo-lock"></span></label> 
+                         <p:inputText
+                            placeholder="Senha"
+                            type="password"
+                            class="username"
+                            value="#{usuarioControle.usuario.senha}"
+                            >
+                         </p:inputText>
+                        
+                    </div>
+                    <!-- button -->
+                    <h:commandButton
+                        style="background-color: #cc9900"
+                        class="btn"
+                        value="Acessar"
+                        action="#{usuarioControle.login()}">
+                    </h:commandButton>
+                    <p>                        
+                        Ainda não é membro? <a href="/ProjetoPOO/faces/telaCadastro.xhtml" target="_blank"> Cadastre-se aqui! <span class="entypo-right-thin"></span></a>
+                    </p>
+                </h:form>
+            </div> <!-- /login-wrapper -->
+        </div>  <!-- /container -->
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js'></script>
+
+
+    </h:body>
+</html>

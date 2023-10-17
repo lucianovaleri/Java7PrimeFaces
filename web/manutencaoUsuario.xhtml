@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Manutenção de Usuarios</title>   
+
+        <meta charset="UTF-8"/>
+        <title>GAMA </title>
+        <script src="https://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css'/>
+        <link rel="stylesheet" href="../css/cssTelaInicial.css"/>
+        <style>
+            .main2{
+                margin-top: 150px;
+            }
+
+            body {
+                background-color: white;
+            }
+        </style>
+
+    </h:head>
+
+
+    <h:body  >
+
+        <div>
+
+
+        </div>
+
+        <header class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+
+                    <!-- Mobile toggle button -->
+                    <p:button class="btn btn-navbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </p:button>
+
+                    <!-- Logo -->
+                    <a href="../" class="navbar-brand"><img src="image/logo1.png" alt="GAMA"/></a>
+
+                    <!-- Navigation -->
+                    <nav class="nav-collapse collapse">
+                        <ul class="nav">
+
+                            <li><a href="../faces/telaInicial.xhtml"> Início </a></li>
+
+                            <li><a href="../faces/telaRelatorios.xhtml" >Relatórios</a></li> 
+
+                            <li><a href="../faces/manutencaoMarcas.xhtml" > Gerenciamento de Marcas </a> </li>
+                            <li><a href="../faces/manutencaoCategoria.xhtml" >Gerenciamento de Categorias</a></li> 
+                            <li><a href="../faces/manutencaoUsuario.xhtml" >Gerenciamento de Usuário</a></li>  
+                            <li><a href="../faces/telaMaquinasAguardando.xhtml" > Anúncios em espera</a></li>
+                            <li><a href="../faces/login2.xhtml"> SAIR </a></li>
+
+                        </ul><!-- /.nav -->           
+                    </nav><!--/.nav-collapse -->
+                </div><!-- /.container -->                              
+
+
+
+            </div><!-- /.nav-inner -->            
+
+            <!--            <div class="text-center">
+                                <p          
+                                    style="font-size: 20px; margin-bottom: 15px; margin-top: 15px"
+                                    class="lead" 
+                                    data-scroll-reveal="wait 0.25s, then enter right and move 40px over 1s">
+                                    <strong>Adicione novos anúncios</strong>
+                                </p>
+            
+                            </div>-->
+
+        </header>
+
+
+        <div class="main2">
+            <h:form  id="formTabela">
+
+                <p:growl id="msg" life="2000"/>
+                <p:dataTable id="tabela"
+                             var="aux" 
+                             value="#{usuarioControle.usuarios}">
+
+
+
+                    <p:column headerText="Nome">
+                        <h:outputText 
+                            value="#{aux.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Telefone">
+                        <h:outputText 
+                            value="#{aux.telefone}" />
+                    </p:column>
+
+                    <p:column headerText="Documento CPF ou CNPJ">
+                        <h:outputText 
+                            value="#{aux.documento}" />
+                    </p:column>
+
+                    <p:column headerText="Email">
+                        <h:outputText 
+                            value="#{aux.email}" />
+                    </p:column>
+
+                    <p:column headerText="Data de Nascimento">
+                        <h:outputText 
+                            value="#{aux.dataNasc}" />
+                    </p:column>
+
+                    <p:column headerText="Senha">
+                        <h:outputText 
+                            value="#{aux.senha}" />
+                    </p:column>
+
+                    <p:column headerText="Local">
+                        <h:outputText 
+                            value="#{aux.local}" />
+                    </p:column>
+
+                    <p:column headerText="Opções" style="width: 100px">
+                        <p:commandButton icon="ui-icon-pencil" 
+                                         oncomplete="PF('dialog').show()"
+                                         update=":formCadastro :formTabela"
+                                         action="#{usuarioControle.preparaAlterar()}">
+                            <p:resetInput target=":formCadastro:painel" />
+                            <f:setPropertyActionListener value="#{aux}" target="#{usuarioControle.usuario}" />
+                        </p:commandButton>
+
+                        <p:commandButton icon="ui-icon-cancel" 
+                                         oncomplete="PF('excluir').show()">
+                            <f:setPropertyActionListener value="#{aux}" target="#{usuarioControle.usuario}" />
+                        </p:commandButton>
+
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:commandButton value="Novo" 
+                                 action="#{usuarioControle.preparaIncluir()}" 
+                                 oncomplete="PF('dialog').show()" 
+                                 update=":formCadastro">
+                    <p:resetInput target=":formCadastro:painel" />
+                </p:commandButton> 
+
+            </h:form>
+
+
+            <!--PAINEL PARA EXCLUIR-->
+            <p:confirmDialog id="confirmaExclusao" 
+                             message="Deseja realmente excluir o registro?"  
+                             header="Confirma a Exclusão?" 
+                             severity="alert" 
+                             widgetVar="excluir">
+                <h:form id="formPainelExcluir">
+                    <p:commandButton value="Sim" 
+                                     oncomplete="PF('excluir').hide()" 
+                                     update=":formTabela :formCadastro"  
+                                     actionListener="#{usuarioControle.excluir()}"/>  
+                    <p:commandButton value="Não" oncomplete="PF('excluir').hide()"/> 
+                </h:form>
+            </p:confirmDialog>  
+
+            <!--PAINEL PARA CADASTRO-->
+            <p:dialog
+                header="Cadastro de Usuarios"
+                widgetVar="dialog"
+                resizable="false"
+                modal="true"
+                >
+
+                <h:form id="formCadastro">
+
+                    <h:panelGrid columns="2" id="painel">
+
+                        <p:outputLabel value="Nome:"
+                                       for="nome"
+                                       />
+                        <p:inputText id="nome"
+                                     required="true"
+                                     maxlength="30"
+                                     value="#{usuarioControle.usuario.nome}"/>
+                        <p:outputLabel value="Telefone:"
+                                       for="telefone"
+                                       />
+                        <p:inputMask id="telefone"
+                                     maxlength="40"
+                                     required="true"
+                                     mask="(99) 99999-9999"
+                                     value="#{usuarioControle.usuario.telefone}"/>
+                        <p:outputLabel value="CPF ou CNPJ:"
+                                       for="documento"
+                                       />
+                        <p:inputText id="documento"
+                                     maxlength="40"
+                                     required="true"
+                                     value="#{usuarioControle.usuario.documento}"/>
+                        <p:outputLabel value="Email:"
+                                       for="email"
+                                       />
+                        <p:inputText id="email"
+                                     maxlength="40"
+                                     required="true"
+                                     value="#{usuarioControle.usuario.email}"/>
+
+                        <p:outputLabel value="Tipo de Usuário: "
+                                       for="tipoUsuario"
+                                       />
+                        <p:selectOneMenu id="tipoUsuario" required="true" value="#{usuarioControle.usuario.tipoUsuario}">
+                            <f:selectItem itemLabel="Selecione" itemValue="" />
+                            <f:selectItem itemLabel="administrador" itemValue="administrador" />
+                            <f:selectItem itemLabel="comum" itemValue="comum" />                                 
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Data de Nascimento:"
+                                       for="dataNasc"
+                                       />
+                        <p:inputMask id="dataNasc"
+                                     maxlength="40"
+                                     required="true"
+                                     mask="99/99/9999"
+                                     value="#{usuarioControle.usuario.dataNasc}"/>
+                        <p:outputLabel value="Senha:"
+                                       for="senha"
+                                       />
+                        <p:inputText id="senha"
+                                     maxlength="45"
+                                     required="true"
+                                     type="password"
+                                     value="#{usuarioControle.usuario.senha}"/>
+                        <p:outputLabel value="Cidade - Estado:"
+                                       for="local"
+                                       />
+                        <p:inputText id="local"
+                                     maxlength="40"
+                                     required="true"
+                                     value="#{usuarioControle.usuario.local}"/>
+
+                    </h:panelGrid>
+                    <p:commandButton value="Salvar" 
+                                     action="#{usuarioControle.salvar}" 
+                                     update=":formTabela :formCadastro"
+                                     oncomplete="validar(xhr,status,args,'dialog');" 
+                                     icon="ui-icon-disk" 
+                                     />
+                    <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="PF('dialog').hide()"/>
+
+
+                </h:form>   
+
+
+            </p:dialog>
+
+
+        </div>
+        <script type="text/javascript">
+            function validar(xhr, status, args, dlg) {
+                if (args.validationFailed) {
+
+                } else {
+                    PF(dlg).hide();
+                }
+            }
+
+        </script>
+    </h:body>
+</html>
+
